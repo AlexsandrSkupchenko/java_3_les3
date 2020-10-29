@@ -16,9 +16,7 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -144,6 +142,7 @@ public class Controller implements Initializable {
                             }
                         } else {
                             textArea.appendText(str + "\n");
+                            writeHistory("client/history_" + nickname, str);
                         }
                     }
                 } catch (RuntimeException e) {
@@ -246,4 +245,16 @@ public class Controller implements Initializable {
         }
 
     }
+    public static void writeHistory(String inFile, String inText) throws IOException {
+        try (OutputStreamWriter outWriter = new OutputStreamWriter(new FileOutputStream(inFile, true))) {
+            int i = 0;
+            inText += "\n";
+            while (i <= inText.length() - 1) {
+                outWriter.append(inText.charAt(i));
+                i++;
+            }
+        }
+
+    }
+
 }
